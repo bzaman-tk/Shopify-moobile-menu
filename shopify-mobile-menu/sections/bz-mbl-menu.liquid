@@ -1,0 +1,20 @@
+{% include 'bz-mbl-menu', linklist: section.settings.main_linklist %}
+
+
+{% schema %}
+{
+"name": "Mobile Menu",
+"settings": [
+    {
+    "type": "header",
+    "content": "Select Mobile Menu"
+    },
+    {
+    "type": "link_list",
+    "id": "main_linklist",
+    "label": "Menu",
+    "default": "main-menu"
+    }
+]
+}
+{% endschema %}

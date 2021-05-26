@@ -1,0 +1,168 @@
+ 
+<div class="mobile-only" style="margin: 65px 0 0 0;"></div> 
+
+<ul class="bz-mbl-menu mobile-only">
+{% for link in linklists[linklist].links %}
+<li>
+    {% if link.links != blank %}
+    <span class="bz-mbl-prnt">{{ link.title | escape }}</span> 
+    <ul class="bz-mbl-menu-child">
+        {% for childlink in link.links %}
+        <li>
+            {% if childlink.links != blank %}
+                <span class="bz-mbl-child">{{ childlink.title | escape }}</span> 
+                <ul class="bz-mbl-menu-grandchild">                
+                    {% for grandchildlink in childlink.links %} 
+                        <li>
+                            <a href="{{ grandchildlink.url }}"><span>{{ grandchildlink.title | escape }}</span> </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <a href="{{ childlink.url }}"><span>{{ childlink.title | escape }}</span></a> 
+            {% endif %}
+        </li>
+        {% endfor %}
+    </ul>        
+    {% else %}
+        <a href="{{ link.url }}"><span class=" ">{{ link.title | escape }}</span></a> 
+    {% endif %}
+</li>  
+{% endfor %}
+</ul>  
+
+
+<script>
+jQuery(document).ready(function($){
+
+    $('a.bz-mb-menu').click(function(e){
+        e.preventDefault();
+        if($(this).hasClass('open')){
+            $(this).removeClass('open');
+            $('ul.bz-mbl-menu').slideUp("slow");
+            $("html, body").animate({ scrollTop: "0" }, 1000);
+        }else{
+            $(this).addClass('open');
+            $('ul.bz-mbl-menu').slideDown("slow");
+            $("html, body").animate({ scrollTop: "0" }, 1000);
+        }
+
+    });
+    
+
+    $('span.bz-mbl-prnt').click(function(){
+        if($(this).next('ul').hasClass('open')){
+            $('span.bz-mbl-prnt + ul, span.bz-mbl-child + ul').slideUp('slow').removeClass('open');
+            $(this).removeClass('op');
+        }else{    
+            $('span.bz-mbl-prnt + ul, span.bz-mbl-child + ul').hide('fast').removeClass('open');        
+            $("ul.bz-mbl-menu span").removeClass('op');
+            $(this).next("ul").slideDown('slow').addClass('open');
+            $(this).addClass('op');
+            $(window).scrollTop(0);
+        }
+    });
+    
+    $('span.bz-mbl-child').click(function(){
+        if($(this).next('ul').hasClass('open')){
+            $(this).next("ul").slideUp('slow').removeClass('open');
+            $(this).removeClass('op');
+        }else{
+            $("ul.bz-mbl-menu-child span").removeClass('op');
+            $('span.bz-mbl-child + ul').hide('fast');
+            $(this).next("ul").slideDown('slow').addClass('open');
+            $(this).addClass('op');
+        }
+    });
+
+}); 	
+</script>
+
+<style>
+/* Small Devices, Tablets */
+@media only screen and (max-width : 768px) {
+ul.bz-mbl-menu ul {
+    display: none;
+}
+
+ul.bz-mbl-menu {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+ul.bz-mbl-menu > li > a > span, ul.bz-mbl-menu > li > span {
+    color: #162950;
+    display: block;
+    padding: 15px 30px; 
+    font-size: 16px;
+    font-family: Muli, sans-serif;
+}
+
+ul.bz-mbl-menu-child span.bz-mbl-child:after, 
+ul.bz-mbl-menu>li>span.bz-mbl-prnt:after {
+    content: "\f107 ";
+    font: normal normal normal 14px/1 FontAwesome;
+    float: right;
+    font-size: 25px;
+} 
+ul.bz-mbl-menu-child {
+    margin: 5px 0 0 0;
+    padding: 0 30px 0 50px;
+    list-style: none;
+    box-shadow: inset 0 2px 5px 0 rgba(0,0,0,0.3);
+}
+
+ul.bz-mbl-menu span {
+    font-family: Muli,sans-serif;
+    color: #162950;
+    font-size: 16px; 
+    display: block;
+}
+
+ul.bz-mbl-menu li {
+    border-bottom: 1px solid  #e4e4e4;
+}
+
+ul.bz-mbl-menu-child li:last-child {
+    border: 0 none;
+}
+
+ul.bz-mbl-menu-child span {
+    padding: 10px 0;
+}
+
+ul.bz-mbl-menu-child span.bz-mbl-child.op:after, ul.bz-mbl-menu>li>span.bz-mbl-prnt.op:after {
+    content: "\f106 ";
+}
+ 
+ul.bz-mbl-menu-grandchild {
+    margin: 0;
+    list-style: none;
+    padding: 0 0 0 20px;
+    border-top: 1px solid #ddd;
+}
+
+ul.bz-mbl-menu {
+    display: none;
+}
+
+a.icon-nav.bz-mb-menu.open {
+    position: relative;
+}
+
+a.icon-nav.bz-mb-menu.open:after {
+    content: "x";
+    position: absolute;
+    width: 110%;
+    height: 110%;
+    background: #fff;
+    left: -5%;
+    right: -3%;
+    color: #000;
+    font-size: 40px;
+    line-height: 17px;
+}
+}
+</style>
+ 
